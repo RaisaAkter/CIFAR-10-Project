@@ -7,6 +7,7 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras.utils.np_utils import to_categorical
+from keras.utils import np_utils
 from keras.preprocessing import image
 import numpy as np
 import pandas as pd
@@ -21,36 +22,27 @@ train = pd.read_csv('trainLabels.csv')
 train_image = []
 #loading the train dataset
 for i in tqdm(range(train.shape[0])):
-    img = image.load_img('train/'+train['id'][i].astype('str')+'.png', target_size=(28,28,3), grayscale=False)
+    img = image.load_img('train/'+train['id'][i].astype('str')+'.png', target_size=(28,28,3))
     img = image.img_to_array(img)
     img = img/255
     train_image.append(img) 
 X = np.array(train_image)
 #on hot encoding
 y=train['label'].values
-"""for x in y: I changed the train label into integer number
-    if x=='airplane':
-        y[x]=0
-    elif x=='automobile':
-        y[x]=1
-    elif x=='bird':
-        y[x]=2
-    elif x=='cat':
-        y[x]=3
-    elif x=='deer':
-        y[x]=4
-    elif x=='dog':
-        y[x]=5
-    elif x=='frog':
-        y[x]=6
-    elif x=='horse':
-        y[x]=7
-    elif x=='ship':
-        y[x]=8
-    elif x=='truck':
-        y[x]=9"""
-#convert the labels into categorical    
-y = to_categorical(y)
+y[y == 'airplane'] = 0
+y[y == 'automobile'] = 1
+y[y == 'bird'] = 2
+y[y == 'cat'] = 3
+y[y == 'deer'] = 4
+y[y == 'dog'] = 5
+y[y == 'frog'] = 6
+y[y == 'horse'] = 7
+y[y == 'ship'] = 8
+y[y == 'truck'] = 9
+
+#convert the labels into categorical  
+num_classes=10
+y = np_utils.to_categorical(y,num_classes)
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42, test_size=0.2)
 
 model = Sequential()
@@ -65,32 +57,22 @@ model.add(Dense(10, activation='softmax'))
 #complie the model
 model.compile(loss='categorical_crossentropy',optimizer='Adam',metrics=['accuracy'])
 #training the model
-model.fit(X_train, y_train, epochs=10, validation_data=(X_test, y_test))
+model.fit(X_train, y_train, epochs=1, validation_data=(X_test, y_test))
 #read and store all test image
 
-first_index =  150001
-second_index = 200000
-"""img_files= [TEST_DATA_DIR + str(i) +  
-                    ".png"  for i in range(first_index, (second_index + 1))]
-
-test_data = np.ndarray(((second_index - first_index), IMG_SIZE,  IMG_SIZE, IMG_CHANNEL),
-                 dtype = np.float32)
-
-for i, img_file in enumerate(img_files):
-        img = Image.open(img_file)
-        test_data[i] = np.array(img)"""
-
+first_index =  250001
+second_index = 299999
 test = pd.read_csv('test.csv')
 test_image = []
 for i in tqdm(range(first_index,(second_index+1))):
-    img = image.load_img('test/'+test['id'][i].astype('str')+'.png', target_size=(28,28,3), grayscale=False)
+    img = image.load_img('test/'+test['id'][i].astype('str')+'.png', target_size=(28,28,3))
     img = image.img_to_array(img)
     img = img/255
     test_image.append(img)
-test = np.array(test_image)
+y = np.array(test_image)
 # making predictions
-prediction = model.predict_classes(test)
+prediction = model.predict_classes(y)
 # creating submission file
-sample = pd.read_csv('sample_submission.csv')
+sample = pd.read_csv('11.csv')
 sample['label'] = prediction
-sample.to_csv('sample_cnn4.csv', header=True, index=False)
+sample.to_csv('sample_cnn6.csv', header=True, index=False)

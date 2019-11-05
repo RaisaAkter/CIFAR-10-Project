@@ -1,3 +1,6 @@
+#author raisa
+#this python script is used for experiment different thing and if it goes right then I add them in my main code
+
 """first_index = 1; second_index = 50000
 img_files= [TEST_DATA_DIR + str(i) +  
                     ".png"  for i in range(first_index, (second_index + 1))]
@@ -25,6 +28,7 @@ import pandas as pd
 
 from os import listdir
 from PIL import Image as PImage
+
 
 """test = pd.read_csv('test.csv')
 #print(test.shape[0])
@@ -108,8 +112,9 @@ df[col] = df[col].replace(findL, replaceL)
 writer.writerow(df)
 df.to_csv("change1.csv",index=True)"""
 import pandas as pd
+from keras.utils import np_utils
 
-df = pd.read_csv('change.csv', index_col=False)   #using pandas to read in the CSV file
+"""df = pd.read_csv('change.csv', index_col=False)   #using pandas to read in the CSV file
 
 #let's say in this dataframe you want to do corrections on the 'column for correction' column
 
@@ -118,6 +123,57 @@ correctiondict= {
                   1: 'automobile'
                  }
 
-df['B']=df['B'].replace(correctiondict)
+df['B']=df['B'].replace(correctiondict)"""
+
+"""train = pd.read_csv('trainLabels.csv')
+#set grayscale as False
+train_image = []
+#loading the train dataset
+for i in tqdm(range(train.shape[0])):
+    img = image.load_img('train/'+train['id'][i].astype('str')+'.png', target_size=(28,28,3))
+    img = image.img_to_array(img)
+    img = img/255
+    train_image.append(img) 
+X = np.array(train_image)
+#on hot encoding
+y=train['label'].values
+y[y == 'airplane'] = 0
+y[y == 'automobile'] = 1
+y[y == 'bird'] = 2
+y[y == 'cat'] = 3
+y[y == 'deer'] = 4
+y[y == 'dog'] = 5
+y[y == 'frog'] = 6
+y[y == 'horse'] = 7
+y[y == 'ship'] = 8
+y[y == 'truck'] = 9
+print(y)
+print(type(y))
+
+#convert the labels into categorical  
+num_classes=10
+y = np_utils.to_categorical(y,num_classes)"""
+
+ab=pd.read_csv('sample_cnn1.csv')
+ab.replace(1,'automobile', inplace=True)
+ab.replace(2,'bird', inplace=True)
+ab.replace(3,'cat', inplace=True)
+ab.replace(4,'deer', inplace=True)
+ab.replace(5,'dog', inplace=True)
+ab.replace(6,'frog', inplace=True)
+ab.replace(7,'horse', inplace=True)
+ab.replace(8,'ship', inplace=True)
+ab.replace(9,'truck', inplace=True)
+ab.replace(0,'airplane', inplace=True)
+#ab[ab==0]='airplane'
+#ab[ab==1,1]='automobile'
+ab.to_csv('cnn.csv',header=True,index=False)
+
+"""test_data = np.ndarray(((second_index - first_index), 28,28,3),
+                 dtype = np.float32)
+
+for i, img_file in enumerate(img_files):
+        img = Image.open(img_file)
+        test_data[i] = np.array(img)"""
 
 
