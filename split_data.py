@@ -55,26 +55,9 @@ combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
 #export to csv
 combined_csv.to_csv( "combined_csv.csv", index=False, encoding='utf-8-sig')
 
-#change the lebel in csv
-myData = [["first_name", "second_name", "Grade"],
-          ['Alex', 'Brian', 'A'],
-          ['Tom', 'Smith', 'B']]
- 
-myFile = open('example2.csv', 'w')
-with myFile:
-    writer = csv.writer(myFile)
-    writer.writerows(myData)
-     
-print("Writing complete")
-import csv
-with open('change.csv') as csvfile:
-    reader = csv.DictReader(csvfile)
-    for row in reader:
-        if row['label']==0:
-            row['label']='airplane'"""
 import csv
 
-"""f = open('change.csv')
+f = open('change.csv')
 inf = csv.reader(f)
 for row in inf:
     print(row[1])
@@ -152,7 +135,7 @@ print(type(y))
 
 #convert the labels into categorical  
 num_classes=10
-y = np_utils.to_categorical(y,num_classes)"""
+y = np_utils.to_categorical(y,num_classes)
 
 ab=pd.read_csv('sample_cnn1.csv')
 ab.replace(1,'automobile', inplace=True)
@@ -169,11 +152,40 @@ ab.replace(0,'airplane', inplace=True)
 #ab[ab==1,1]='automobile'
 ab.to_csv('cnn.csv',header=True,index=False)
 
-"""test_data = np.ndarray(((second_index - first_index), 28,28,3),
+test_data = np.ndarray(((second_index - first_index), 28,28,3),
                  dtype = np.float32)
 
 for i, img_file in enumerate(img_files):
         img = Image.open(img_file)
-        test_data[i] = np.array(img)"""
+        test_data[i] = np.array(img)""
+
+first_index = 1; second_index = 50000
+img_files= ['test/' + str(i) +  
+                    ".png"  for i in range(first_index, (second_index + 1))]
+
+test_data = np.ndarray(((second_index - first_index), 32,32,3),
+                 dtype = np.float32)
+
+for i, img_file in enumerate(img_files):
+        img = image.load_img(img_file)
+        test_data[i] = np.array(img)
+
+"from PIL import Image
+import glob
+image_list = []
+for filename in glob.glob('test/*.png'): #assuming png
+    im=image.load_img(filename)
+    image_list.append(im)"""
+
+test_image = []
+f_index=250001
+l_index=300000
+for i in tqdm(range(f_index,(l_index+1))):
+    img = image.load_img('test/'+str(i)+'.png', target_size=(28,28,3))
+    img = image.img_to_array(img)
+    img = img/255
+    test_image.append(img)
+test = np.array(test_image)
+print(test_image.shape)
 
 

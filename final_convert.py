@@ -1,3 +1,8 @@
+#author raisa
+#DAte 08-11-19
+#This script is used for convert the 10 class label into its true name and the converted file is kept as a csv file.
+#As we predict the test data in 6 iteration, 6 csv file is produced and then we combined them into 1 csv file which is the final csv file for uploed.
+
 import os
 import glob
 import pandas as pd
@@ -71,7 +76,7 @@ data.replace(9,'truck', inplace=True)
 data.replace(0,'airplane', inplace=True)
 data.to_csv('result/result5.csv',header=True,index=False)
 
-"""data=pd.read_csv('sample_cnn6.csv')
+data=pd.read_csv('sample_cnn6.csv')
 data['id']=data['id']+250000
 data.replace(1,'automobile', inplace=True)
 data.replace(2,'bird', inplace=True)
@@ -83,7 +88,7 @@ data.replace(7,'horse', inplace=True)
 data.replace(8,'ship', inplace=True)
 data.replace(9,'truck', inplace=True)
 data.replace(0,'airplane', inplace=True)
-data.to_csv('result/result6.csv',header=True,index=False)"""
+data.to_csv('result/result6.csv',header=True,index=False)
 
 #way to combine multiple csv file
 

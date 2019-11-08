@@ -57,15 +57,15 @@ model.add(Dense(10, activation='softmax'))
 #complie the model
 model.compile(loss='categorical_crossentropy',optimizer='Adam',metrics=['accuracy'])
 #training the model
-model.fit(X_train, y_train, epochs=1, validation_data=(X_test, y_test))
+model.fit(X_train, y_train, epochs=15, validation_data=(X_test, y_test))
 #read and store all test image
 
-first_index =  250001
-second_index = 299999
-test = pd.read_csv('test.csv')
+first_index =  1
+second_index = 50000
 test_image = []
 for i in tqdm(range(first_index,(second_index+1))):
-    img = image.load_img('test/'+test['id'][i].astype('str')+'.png', target_size=(28,28,3))
+    #img = image.load_img('test/'+test['id'][i].astype('str')+'.png', target_size=(28,28,3))
+    img = image.load_img('test/'+str(i)+'.png', target_size=(28,28,3))
     img = image.img_to_array(img)
     img = img/255
     test_image.append(img)
@@ -73,6 +73,6 @@ y = np.array(test_image)
 # making predictions
 prediction = model.predict_classes(y)
 # creating submission file
-sample = pd.read_csv('11.csv')
+sample = pd.read_csv('submission.csv')
 sample['label'] = prediction
-sample.to_csv('sample_cnn6.csv', header=True, index=False)
+sample.to_csv('sample_cnn1.csv', header=True, index=False)
