@@ -60,16 +60,18 @@ model.compile(loss='categorical_crossentropy',optimizer='Adam',metrics=['accurac
 model.fit(X_train, y_train, epochs=15, validation_data=(X_test, y_test))
 #read and store all test image
 
-#first_index=1,     second_index=50000
-#first_index =50001, second_index = 100000
+#first_index=1
+#second_index=50000
+#first_index =50001
+#second_index = 100000
 #first_index=100001  
 #second_index=150000
 #first_index=150001
 #second_index=200000
 #first_index=200001
 #second_index=250000
-first_index=250001
-second_index=300000
+#first_index=250001
+#second_index=300000
 
 print("iteration from",first_index)
 test_image = []
@@ -90,4 +92,4 @@ sample['label'] = prediction
 #sample.to_csv('sample_cnn3.csv', header=True, index=False)
 #sample.to_csv('sample_cnn4.csv', header=True, index=False)
 #sample.to_csv('sample_cnn5.csv', header=True, index=False)
-sample.to_csv('sample_cnn6.csv', header=True, index=False)
+#sample.to_csv('sample_cnn6.csv', header=True, index=False)

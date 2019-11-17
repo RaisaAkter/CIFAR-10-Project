@@ -8,7 +8,7 @@ import glob
 import pandas as pd
 import numpy as np
 
-def replace_errors(data):
+def replace_error(data):
     data.replace(1,'automobile', inplace=True)
     data.replace(2,'bird', inplace=True)
     data.replace(3,'cat', inplace=True)
@@ -23,91 +23,37 @@ def replace_errors(data):
 
 data=pd.read_csv('sample_cnn_0.csv')
 replace_error(data)
-"""data.replace(1,'automobile', inplace=True)
-data.replace(2,'bird', inplace=True)
-data.replace(3,'cat', inplace=True)
-data.replace(4,'deer', inplace=True)
-data.replace(5,'dog', inplace=True)
-data.replace(6,'frog', inplace=True)
-data.replace(7,'horse', inplace=True)
-data.replace(8,'ship', inplace=True)
-data.replace(9,'truck', inplace=True)
-data.replace(0,'airplane', inplace=True)"""
+
 data.to_csv('result/result1.csv',header=True,index=False)
 
 data=pd.read_csv('sample_cnn_1.csv')
 data['id']=data['id']+50000
 replace_error(data)
-"""data.replace(1,'automobile', inplace=True)
-data.replace(2,'bird', inplace=True)
-data.replace(3,'cat', inplace=True)
-data.replace(4,'deer', inplace=True)
-data.replace(5,'dog', inplace=True)
-data.replace(6,'frog', inplace=True)
-data.replace(7,'horse', inplace=True)
-data.replace(8,'ship', inplace=True)
-data.replace(9,'truck', inplace=True)
-data.replace(0,'airplane', inplace=True)"""
+
 data.to_csv('result/result2.csv',header=True,index=False)
 
 data=pd.read_csv('sample_cnn_2.csv')
 data['id']=data['id']+100000
 replace_error(data)
-"""data.replace(1,'automobile', inplace=True)
-data.replace(2,'bird', inplace=True)
-data.replace(3,'cat', inplace=True)
-data.replace(4,'deer', inplace=True)
-data.replace(5,'dog', inplace=True)
-data.replace(6,'frog', inplace=True)
-data.replace(7,'horse', inplace=True)
-data.replace(8,'ship', inplace=True)
-data.replace(9,'truck', inplace=True)
-data.replace(0,'airplane', inplace=True)"""
+
 data.to_csv('result/result3.csv',header=True,index=False)
 
 data=pd.read_csv('sample_cnn_3.csv')
 data['id']=data['id']+150000
 replace_error(data)
-"""data.replace(1,'automobile', inplace=True)
-data.replace(2,'bird', inplace=True)
-data.replace(3,'cat', inplace=True)
-data.replace(4,'deer', inplace=True)
-data.replace(5,'dog', inplace=True)
-data.replace(6,'frog', inplace=True)
-data.replace(7,'horse', inplace=True)
-data.replace(8,'ship', inplace=True)
-data.replace(9,'truck', inplace=True)
-data.replace(0,'airplane', inplace=True)"""
+
 data.to_csv('result/result4.csv',header=True,index=False)
 
 data=pd.read_csv('sample_cnn_4.csv')
 data['id']=data['id']+200000
 replace_error(data)
-"""data.replace(1,'automobile', inplace=True)
-data.replace(2,'bird', inplace=True)
-data.replace(3,'cat', inplace=True)
-data.replace(4,'deer', inplace=True)
-data.replace(5,'dog', inplace=True)
-data.replace(6,'frog', inplace=True)
-data.replace(7,'horse', inplace=True)
-data.replace(8,'ship', inplace=True)
-data.replace(9,'truck', inplace=True)
-data.replace(0,'airplane', inplace=True)"""
+
 data.to_csv('result/result5.csv',header=True,index=False)
 
 data=pd.read_csv('sample_cnn_5.csv')
 data['id']=data['id']+250000
 replace_error(data)
-'''data.replace(1,'automobile', inplace=True)
-data.replace(2,'bird', inplace=True)
-data.replace(3,'cat', inplace=True)
-data.replace(4,'deer', inplace=True)
-data.replace(5,'dog', inplace=True)
-data.replace(6,'frog', inplace=True)
-data.replace(7,'horse', inplace=True)
-data.replace(8,'ship', inplace=True)
-data.replace(9,'truck', inplace=True)
-data.replace(0,'airplane', inplace=True)'''
+
 data.to_csv('result/result6.csv',header=True,index=False)
 
 #way to combine multiple csv file
