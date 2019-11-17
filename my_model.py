@@ -80,7 +80,7 @@ model_checkpoint_dir=os.path.join(config.checkpoint_path(),"baseline.h5")
 model.compile(loss='categorical_crossentropy',optimizer='Adam',metrics=['accuracy'])
 #training the model
 #model.fit(X_train, y_train, epochs=20, validation_data=(X_test, y_test))
-model.fit(X_train, y_train, batch_size=200, epochs=20, verbose=2, callbacks=[EarlyStopping(monitor='val_loss',
+model.fit(X_train, y_train, batch_size=200, epochs=100, verbose=2, callbacks=[EarlyStopping(monitor='val_loss',
             patience=15, verbose=2, mode='auto'),
             ModelCheckpoint(model_checkpoint_dir, monitor='val_loss', verbose=2, save_best_only=True,
             save_weights_only=False, mode='auto', period=1)],shuffle=True,validation_data=(X_test, y_test))
