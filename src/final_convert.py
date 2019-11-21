@@ -21,40 +21,21 @@ def replace_error(data):
     data.replace(0,'airplane', inplace=True)
 
 
-data=pd.read_csv('E:/CSE/12th_semester/CIFAR-10-Project/output/sample_cnn_0.csv')
-replace_error(data)
-
-data.to_csv('E:/CSE/12th_semester/CIFAR-10-Project/result/result1.csv',header=True,index=False)
-
-data=pd.read_csv('E:/CSE/12th_semester/CIFAR-10-Project/output/sample_cnn_1.csv')
-data['id']=data['id']+50000
-replace_error(data)
-
-data.to_csv('E:/CSE/12th_semester/CIFAR-10-Project/result/result2.csv',header=True,index=False)
-
-data=pd.read_csv('E:/CSE/12th_semester/CIFAR-10-Project/output/sample_cnn_2.csv')
-data['id']=data['id']+100000
-replace_error(data)
-
-data.to_csv('E:/CSE/12th_semester/CIFAR-10-Project/result/result3.csv',header=True,index=False)
-
-data=pd.read_csv('E:/CSE/12th_semester/CIFAR-10-Project/output/sample_cnn_3.csv')
-data['id']=data['id']+150000
-replace_error(data)
-
-data.to_csv('E:/CSE/12th_semester/CIFAR-10-Project/result/result4.csv',header=True,index=False)
-
-data=pd.read_csv('E:/CSE/12th_semester/CIFAR-10-Project/output/sample_cnn_4.csv')
-data['id']=data['id']+200000
-replace_error(data)
-
-data.to_csv('E:/CSE/12th_semester/CIFAR-10-Project/result/result5.csv',header=True,index=False)
-
-data=pd.read_csv('E:/CSE/12th_semester/CIFAR-10-Project/output/sample_cnn_5.csv')
-data['id']=data['id']+250000
-replace_error(data)
-
-data.to_csv('E:/CSE/12th_semester/CIFAR-10-Project/result/result6.csv',header=True,index=False)
+for i in range(0,6):
+    data=pd.read_csv('E:/CSE/12th_semester/CIFAR-10-Project/output/sample_cnn_'+str(i)+'.csv')
+    if i==1:
+        data['id']=data['id']+50000
+    elif i==2:
+        data['id']=data['id']+100000
+    elif i==3:
+        data['id']=data['id']+150000
+    elif i==4:
+        data['id']=data['id']+200000
+    elif i==5:
+        data['id']=data['id']+250000
+    replace_error(data)
+    data.to_csv('E:/CSE/12th_semester/CIFAR-10-Project/result/result'+str(i)+'.csv',header=True,index=False)
+    
 
 #way to combine multiple csv file
 
