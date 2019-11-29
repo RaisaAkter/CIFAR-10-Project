@@ -35,16 +35,18 @@ num_test_img=300000
 num_train_img=50000
 
 #reading the label file
-train = pd.read_csv('E:/CSE/12th_semester/CIFAR-10-Project/src/trainLabels.csv')
+train = pd.read_csv('E:/CSE/12th_semester/CIFAR-10-Project/data/trainLabels.csv')
 
 #loading the train dataset
-train_image = []
+'''train_image = []
 for i in tqdm(range(train.shape[0])):
     img = image.load_img('E:/CSE/12th_semester/CIFAR-10-Project/data/train/'+train['id'][i].astype('str')+'.png', target_size=(32,32,3))
     img = image.img_to_array(img)  #convert to numpy array
     img = img/255
     train_image.append(img) 
 X = np.array(train_image)
+np.save('E:/CSE/12th_semester/CIFAR-10-Project/data/train'+'.npy',X)'''
+X=np.load('E:/CSE/12th_semester/CIFAR-10-Project/data/train'+'.npy')
 
 #on hot encoding
 y=train['label'].values
@@ -72,6 +74,10 @@ def lr_scheduler(epoch):
         K.set_value(model.optimizer.lr, config.lr_1)
     elif (epoch == 40):
         K.set_value(model.optimizer.lr, config.lr_2)
+    elif (epoch == 60):
+        K.set_value(model.optimizer.lr, config.lr_3)
+    elif (epoch == 80):
+        K.set_value(model.optimizer.lr, config.lr_4)
 
     print("learning rate: ", K.get_value(model.optimizer.lr))
     return K.get_value(model.optimizer.lr)
@@ -104,21 +110,21 @@ model.add(Dense(num_classes, activation='softmax'))"""
 
 model = Sequential()
 model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same', input_shape=(32, 32, 3)))
-model.add(BatchNormalization())
+#model.add(BatchNormalization())
 model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
 model.add(BatchNormalization())
 model.add(MaxPooling2D((2, 2)))
 model.add(Dropout(0.2))
 model.add(Conv2D(64, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
-model.add(BatchNormalization())
+#model.add(BatchNormalization())
 model.add(Conv2D(64, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
-model.add(BatchNormalization())
+#model.add(BatchNormalization())
 model.add(MaxPooling2D((2, 2)))
 model.add(Dropout(0.3))
 model.add(Conv2D(128, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
-model.add(BatchNormalization())
+#model.add(BatchNormalization())
 model.add(Conv2D(128, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
-model.add(BatchNormalization())
+#model.add(BatchNormalization())
 model.add(MaxPooling2D((2, 2)))
 model.add(Dropout(0.4))
 model.add(Flatten())
@@ -128,12 +134,13 @@ model.add(Dropout(0.5))
 model.add(Dense(10,activation='softmax'))
 
 # compile model
-opt = SGD(lr=0.001, momentum=0.9)
+opt = SGD(lr=0.05, momentum=0.9)
 model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
 
 # Data Augmentation
 # create data generator
-datagen = ImageDataGenerator(width_shift_range=0.1, height_shift_range=0.1, horizontal_flip=True)
+datagen = ImageDataGenerator(width_shift_range=0.1, height_shift_range=0.1, horizontal_flip=True,
+                            vertical_flip=True,rotation_range=30)
 # prepare iterator
 it_train = datagen.flow(X_train, y_train, batch_size=200)
 # fit model
@@ -141,9 +148,9 @@ it_train = datagen.flow(X_train, y_train, batch_size=200)
 model_checkpoint_dir=os.path.join("E:/CSE/12th_semester/CIFAR-10-Project/checkpoint/","baseline.h5")
 change_lr = LearningRateScheduler(lr_scheduler)
 steps = int(X_train.shape[0] / 64)
-history = model.fit_generator(it_train, steps_per_epoch=steps, epochs=100, validation_data=(X_test, y_test), verbose=2,
+history = model.fit_generator(it_train, steps_per_epoch=steps, epochs=120, validation_data=(X_test, y_test), verbose=2,
             callbacks = [EarlyStopping(monitor='val_loss',
-            patience=20, verbose=2, mode='auto'),
+            patience=40, verbose=2, mode='auto'),
             ModelCheckpoint(model_checkpoint_dir, monitor='val_loss', verbose=2, save_best_only=True,
             save_weights_only=False, mode='auto', period=1), change_lr])
 	
@@ -168,15 +175,18 @@ for part in range(0,6):
     print("iteration from",start," to ",last)
     test_image = []
     for i in tqdm(range(start,last)):
-        img = image.load_img('E:/CSE/12th_semester/CIFAR-10-Project/data/test/'+str(i)+'.png', target_size=(28,28,3))
+        img = image.load_img('E:/CSE/12th_semester/CIFAR-10-Project/data/test/'+str(i)+'.png', target_size=(32,32,3))
         img = image.img_to_array(img)
         img = img/255
         test_image.append(img)
     y = np.array(test_image)
+    np.save('E:/CSE/12th_semester/CIFAR-10-Project/data/test_'+str(i)+'.npy',y)
+
+    y=np.load('E:/CSE/12th_semester/CIFAR-10-Project/data/test_'+str(i)+'.npy')
     # making predictions
     prediction = model.predict_classes(y, batch_size=200, verbose=2)
     # creating submission file
-    sample = pd.read_csv('E:/CSE/12th_semester/CIFAR-10-Project/src/submission.csv')
+    sample = pd.read_csv('E:/CSE/12th_semester/CIFAR-10-Project/data/submission.csv')
     sample['label'] = prediction
     sample.to_csv('E:/CSE/12th_semester/CIFAR-10-Project/output/sample_cnn_'+str(part)+'.csv', header=True, index=False)
 print("Complete")
