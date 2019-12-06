@@ -10,7 +10,7 @@ img_size=28
 img_channel=3
 img_shape=(img_size,img_size,img_channel)
 
-lr_1=0.01 
+lr_1=0.01
 lr_2=0.001
 lr_3=0.0001
 lr_4=0.00001
@@ -27,3 +27,5 @@ def dataset_path():
 
 def src_path():
     return os.path.join(root_path(),"src")
+
+
